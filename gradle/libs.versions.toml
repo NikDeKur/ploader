@@ -1,0 +1,22 @@
+[versions]
+kotlin = "2.0.0"
+slf4j = "2.0.13"
+logback = "1.5.6"
+licenser = "0.6.1"
+ndkore = "1.1.1"
+kaml = "0.60.0"
+shadowJar = "8.1.1"
+jsch = "0.2.18"
+
+[libraries]
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+ndkore = { module = "dev.nikdekur:ndkore", version.ref = "ndkore" }
+kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml" }
+jsch = { module = "com.github.mwiede:jsch", version.ref = "jsch" }
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+licenser = { id = "org.cadixdev.licenser", version.ref = "licenser" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+shadowJar = { id = "com.github.johnrengelman.shadow", version.ref = "shadowJar" }
