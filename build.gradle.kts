@@ -77,8 +77,6 @@ tasks.test {
 tasks.withType<ShadowJar> {
     archiveFileName.set("${project.name}-${project.version}.jar")
 
-    destinationDirectory.set(file("env"))
-
     manifest {
         attributes["Main-Class"] = "dev.nikdekur.ploader.MainKt"
     }
