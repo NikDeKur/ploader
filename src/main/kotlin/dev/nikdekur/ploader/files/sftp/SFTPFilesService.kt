@@ -12,6 +12,7 @@ package dev.nikdekur.ploader.files.sftp
 
 import com.jcraft.jsch.ChannelSftp
 import com.jcraft.jsch.JSch
+import com.jcraft.jsch.Session
 import dev.nikdekur.ndkore.ext.recordTiming
 import dev.nikdekur.ploader.files.FilesService
 import org.slf4j.LoggerFactory
@@ -28,25 +29,26 @@ class SFTPFilesService(
 
     val logger = LoggerFactory.getLogger(javaClass)
 
+    lateinit var session: Session
     lateinit var channel: ChannelSftp
 
     override suspend fun start() {
         logger.info("Connecting to $host:$port as $username")
 
         val jsch = JSch()
-        val jschSession = jsch.getSession(username, host, port)
+        session = jsch.getSession(username, host, port)
 
         val config = Properties()
         config["StrictHostKeyChecking"] = "no"
-        jschSession.setConfig(config)
-        jschSession.setPassword(password)
-        jschSession.connect()
+        session.setConfig(config)
+        session.setPassword(password)
+        session.connect()
 
         logger.info("Connected to host")
 
-        channel = jschSession.openChannel("sftp") as ChannelSftp
+        channel = session.openChannel("sftp") as ChannelSftp
         channel.connect()
-        
+
         logger.info("Connected to SFTP server")
 
     }
@@ -54,6 +56,7 @@ class SFTPFilesService(
     override suspend fun stop() {
         logger.info("Disconnecting from $host:$port")
         channel.disconnect()
+        session.disconnect()
     }
 
     override suspend fun put(local: File, remote: File, overwrite: Boolean) {
