@@ -17,6 +17,7 @@ import dev.nikdekur.ploader.files.FilesService
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 import java.io.File
+import java.util.Properties
 
 class SFTPFilesService(
     private val host: String,
@@ -31,13 +32,21 @@ class SFTPFilesService(
 
     override suspend fun start() {
         logger.info("Connecting to $host:$port as $username")
+
         val jsch = JSch()
         val jschSession = jsch.getSession(username, host, port)
+
+        val config = Properties()
+        config["StrictHostKeyChecking"] = "no"
+        jschSession.setConfig(config)
         jschSession.setPassword(password)
         jschSession.connect()
+
         logger.info("Connected to host")
+
         channel = jschSession.openChannel("sftp") as ChannelSftp
         channel.connect()
+        
         logger.info("Connected to SFTP server")
 
     }
