@@ -108,8 +108,8 @@ class SFTPFilesService(
         }
     }
 
-    private fun formatRemotePath(path: String): String {
-        return path.replace("\\", "/").removePrefix("C:").trimStart('/')
+    inline fun formatRemotePath(path: String): String {
+        return path.replace("\\", "/")
     }
 
     override fun toString(): String {
