@@ -31,6 +31,12 @@ sftp:
   password: "password"
 ```
 
+### Logging
+
+Ploader currently uses [Logback](https://logback.qos.ch/) for logging with root logger level set to INFO.
+You can set your own logback configuration
+by adding `-Dlogback.configurationFile=/path/to/logback.xml` to the JVM options.
+
 ## Actions Configuration
 
 The `actions` section contains a list of actions that will be executed in order.

@@ -25,14 +25,14 @@ object LocalFilesService : FilesService {
     }
 
     override suspend fun put(local: String, remote: String, overwrite: Boolean) {
-        logger.info("Copying $local to $remote")
+        logger.info("Copying `$local` to `$remote`")
         val local = File(local)
         val remote = File(remote)
         local.copyTo(remote, overwrite = overwrite)
     }
 
     override suspend fun get(local: String, remote: String, overwrite: Boolean) {
-        logger.info("Copying $remote to $local")
+        logger.info("Downloading `$remote` to `$local`")
         val local = File(local)
         val remote = File(remote)
         remote.copyTo(local, overwrite = overwrite)
