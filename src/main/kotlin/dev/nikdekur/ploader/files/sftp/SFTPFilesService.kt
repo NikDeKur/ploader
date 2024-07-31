@@ -17,7 +17,6 @@ import dev.nikdekur.ndkore.ext.recordTiming
 import dev.nikdekur.ploader.files.FilesService
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
-import java.io.File
 import java.util.Properties
 
 class SFTPFilesService(
@@ -55,23 +54,23 @@ class SFTPFilesService(
 
     override suspend fun stop() {
         logger.info("Disconnecting from $host:$port")
-        channel.disconnect()
+        // Don't close the channel, jsch will do it for us
         session.disconnect()
     }
 
-    override suspend fun put(local: File, remote: File, overwrite: Boolean) {
-        logger.info("Uploading ${local.absolutePath} to ${remote.absolutePath}")
+    override suspend fun put(local: String, remote: String, overwrite: Boolean) {
+        logger.info("Uploading $local to $remote")
         logger.recordTiming(Level.INFO, "Uploading") {
             val mode = getOverwriteMode(overwrite)
-            channel.put(local.absolutePath, remote.absolutePath, mode)
+            channel.put(local, remote, mode)
         }
     }
 
-    override suspend fun get(local: File, remote: File, overwrite: Boolean) {
-        logger.info("Downloading ${remote.absolutePath} to ${local.absolutePath}")
+    override suspend fun get(local: String, remote: String, overwrite: Boolean) {
+        logger.info("Downloading $remote to $local")
         logger.recordTiming(Level.INFO, "Downloading") {
             val mode = getOverwriteMode(overwrite)
-            channel[remote.absolutePath, local.absolutePath, null, mode]
+            channel[remote, local, null, mode]
         }
     }
 
@@ -79,9 +78,9 @@ class SFTPFilesService(
         return if (overwrite) ChannelSftp.OVERWRITE else ChannelSftp.RESUME
     }
 
-    override suspend fun remove(remote: File) {
-        logger.info("Removing ${remote.absolutePath}")
-        channel.rm(remote.absolutePath)
+    override suspend fun remove(remote: String) {
+        logger.info("Removing $remote")
+        channel.rm(remote)
     }
 
 

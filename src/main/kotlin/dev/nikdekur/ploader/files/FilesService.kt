@@ -8,14 +8,12 @@
 
 package dev.nikdekur.ploader.files
 
-import java.io.File
-
 interface FilesService {
 
     suspend fun start()
     suspend fun stop()
 
-    suspend fun put(local: File, remote: File, overwrite: Boolean)
-    suspend fun get(local: File, remote: File, overwrite: Boolean)
-    suspend fun remove(remote: File)
+    suspend fun put(local: String, remote: String, overwrite: Boolean)
+    suspend fun get(local: String, remote: String, overwrite: Boolean)
+    suspend fun remove(remote: String)
 }

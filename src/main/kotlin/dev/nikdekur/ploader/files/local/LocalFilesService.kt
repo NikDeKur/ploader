@@ -24,18 +24,23 @@ object LocalFilesService : FilesService {
         // Do nothing
     }
 
-    override suspend fun put(local: File, remote: File, overwrite: Boolean) {
+    override suspend fun put(local: String, remote: String, overwrite: Boolean) {
         logger.info("Copying $local to $remote")
+        val local = File(local)
+        val remote = File(remote)
         local.copyTo(remote, overwrite = overwrite)
     }
 
-    override suspend fun get(local: File, remote: File, overwrite: Boolean) {
+    override suspend fun get(local: String, remote: String, overwrite: Boolean) {
         logger.info("Copying $remote to $local")
+        val local = File(local)
+        val remote = File(remote)
         remote.copyTo(local, overwrite = overwrite)
     }
 
-    override suspend fun remove(remote: File) {
+    override suspend fun remove(remote: String) {
         logger.info("Deleting $remote")
+        val remote = File(remote)
         val result = remote.delete()
         if (!result) {
             logger.warn("Failed to delete $remote")

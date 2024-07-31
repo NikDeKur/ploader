@@ -8,17 +8,15 @@
 
 package dev.nikdekur.ploader.action
 
-import java.io.File
-
 interface Action {
     interface Upload {
-        val source: File
-        val destination: File
+        val source: String
+        val destination: String
         val overwrite: Boolean
     }
 
     interface Remove {
-        val destination: File
+        val destination: String
     }
 
     interface Command {

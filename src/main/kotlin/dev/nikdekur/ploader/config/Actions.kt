@@ -9,15 +9,8 @@
 package dev.nikdekur.ploader.config
 
 import dev.nikdekur.ploader.action.Action
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import java.io.File
 
 @Serializable
 sealed class PLoaderActionConfig : Action {
@@ -25,21 +18,16 @@ sealed class PLoaderActionConfig : Action {
     @Serializable
     @SerialName("upload")
     data class Upload(
-        @Serializable(with = FileSerializer::class)
-        override val source: File,
-
-        @Serializable(with = FileSerializer::class)
-        override val destination: File,
-
-        override val overwrite: Boolean = true
+        override val source: String,
+        override val destination: String,
+        override val overwrite: Boolean = true,
     ) : PLoaderActionConfig(), Action.Upload
 
 
     @Serializable
     @SerialName("remove")
     data class Remove(
-        @Serializable(with = FileSerializer::class)
-        override val destination: File
+        override val destination: String,
     ) : PLoaderActionConfig(), Action.Remove
 
 
@@ -50,20 +38,3 @@ sealed class PLoaderActionConfig : Action {
     ) : PLoaderActionConfig(), Action.Command
 }
 
-
-
-
-
-
-
-object FileSerializer : KSerializer<File> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("File", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: File) {
-        encoder.encodeString(value.absolutePath)
-    }
-
-    override fun deserialize(decoder: Decoder): File {
-        return File(decoder.decodeString())
-    }
-}
