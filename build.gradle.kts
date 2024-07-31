@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "dev.nikdekur"
-version = "1.0.0"
+version = "1.0.1"
 
 val authorId: String by project
 val authorName: String by project
@@ -75,8 +75,7 @@ tasks.test {
 }
 
 tasks.withType<ShadowJar> {
-    archiveFileName.set("${project.name}-${project.version}.jar")
-
+    archiveClassifier.set("")
     manifest {
         attributes["Main-Class"] = "dev.nikdekur.ploader.MainKt"
     }
