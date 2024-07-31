@@ -23,11 +23,17 @@ import kotlinx.serialization.modules.polymorphic
 import org.slf4j.LoggerFactory
 import java.io.File
 
-suspend fun main() {
-
+suspend fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger("dev.nikdekur.ploader.Main")
 
-    val configFile = File("config.yml")
+    val configFilePath = args.firstOrNull() ?: "config.yml"
+
+    val configFile = File(configFilePath)
+    if (!configFile.exists() || configFile.length() == 0L) {
+        logger.error("Configuration file not found: $configFilePath or empty.")
+        return
+    }
+
     val yaml = Yaml(
         SerializersModule {
             polymorphic(PLoaderActionConfig::class) {
