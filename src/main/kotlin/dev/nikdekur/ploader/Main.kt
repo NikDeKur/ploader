@@ -80,4 +80,10 @@ suspend fun main() {
     }
 
     logger.info("All actions executed.")
+
+    commandsService.stop()
+    filesService.stop()
+
+    logger.info("All services stopped.")
+
 }
