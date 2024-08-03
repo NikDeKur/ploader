@@ -1,7 +1,6 @@
 # Plugin Loader (ploader)
 
-A utility that provides the ability to easily interact with the minecraft server. Allows you to send commands and move
-files.
+A utility that provides the ability to easily interact with the minecraft server by uploading plugins or running commands.
 
 ## Installation
 
