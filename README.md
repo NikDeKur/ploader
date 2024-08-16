@@ -31,6 +31,12 @@ sftp:
   password: "password"
 ```
 
+### Multiple Config Files
+
+You can create as many config files as you like
+and specify the path to the config file in arguments when running the jar.
+If you don't specify a path, ploader will use the default `config.yml` in the working directory.
+
 ### Logging
 
 Ploader currently uses [Logback](https://logback.qos.ch/) for logging with root logger level set to INFO.
